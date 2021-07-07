@@ -1,0 +1,47 @@
+$color-bg: rgb(240, 241, 243);
+$color-text: #000;
+$color-btn-primary: rgb(45, 113, 202);
+$color-btn: rgb(240, 238, 235);
+
+// @Mixin
+// Button
+@mixin btn {
+    background-color: $color-btn;
+    color: #000;
+    font-size: 16px;
+    // font-weight: 600;
+    line-height: 40px;
+    text-align: center;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid rgb(226, 236, 247);
+    cursor: pointer;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+@mixin btn-primary {
+    background-color: $color-btn-primary;
+    color: #fff;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+@mixin bg-primary {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: -2px 5px 5px 2px rgb(226, 226, 226);
+}
+
+// Extend
+// Button
+.btn {
+    @include btn;
+    &.btn-primary {
+        @include btn-primary;
+    }
+}
+// Width
+.w-full {
+    width: 100%;
+}
