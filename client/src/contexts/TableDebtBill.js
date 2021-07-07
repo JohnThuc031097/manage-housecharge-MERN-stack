@@ -97,7 +97,7 @@ const TableDebtBillContext = React.createContext({
     dataFake: [
         {
             key: '1',
-            date: '07/04/2021',
+            date: '06/04/2021',
             status: 'Đã thu',
             till: '1253',
             bill: '1200',
