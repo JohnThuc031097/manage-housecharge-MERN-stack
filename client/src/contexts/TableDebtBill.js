@@ -111,7 +111,7 @@ const TableDebtBillContext = React.createContext({
             status: 'Đã thu',
             till: '1253',
             bill: '1000',
-            cash: '02',
+            cash: '06',
             currency: '333.500',
             note: '101/5E Tan Tien'
         },
