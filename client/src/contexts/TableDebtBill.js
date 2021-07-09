@@ -1,5 +1,6 @@
 import React from "react";
 //AntD
+import { Tag } from "antd";
 // import { SearchOutlined } from "@ant-design/icons";
 
 const getFiltersDate = (year, month) => {
@@ -62,7 +63,15 @@ const TableDebtBillContext = React.createContext({
                     value: 'Chưa thu'
                 }
             ],
-            onFilter: (value, record) => record.status.indexOf(value) === 0
+            onFilter: (value, record) => record.status.indexOf(value) === 0,
+            render(status) {
+                return (
+                    <Tag
+                        color={status === 'Đã thu' ? 'green' : 'red'}>
+                        {status}
+                    </Tag>
+                )
+            }
         },
         {
             title: 'Till',
