@@ -36,6 +36,8 @@ export default function DebtBill() {
                                 columns={tableDebtBillContext.columns}
                                 dataSource={tableDebtBillContext.dataFake}
                                 bordered={true}
+                                size="small"
+                                scroll={{ x: 1200, y: 380 }}
                             />
                         </Col>
                     </Row>
