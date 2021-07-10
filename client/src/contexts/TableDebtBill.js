@@ -37,19 +37,98 @@ const getFiltersDate = (year, month) => {
 }
 
 const TableDebtBillContext = React.createContext({
-    columns: [
+    columnsDebtBillExpanable: [
+        {
+            title: 'Currency',
+            dataIndex: 'currency',
+            key: 'currency',
+            width: 150,
+            align: 'right',
+            sorter: (a, b) => a.currency - b.currency,
+            render(currency, record) {
+                return (
+                    <Typography.Text code strong style={{ color: record.status ? 'blue' : 'red', fontSize: '18px' }}>
+                        {currency}
+                    </Typography.Text>
+                )
+            }
+        },
+        {
+            title: 'Till',
+            dataIndex: 'till',
+            key: 'till',
+            width: 80,
+            sorter: (a, b) => a.till - b.till
+        },
+        {
+            title: 'Bill',
+            dataIndex: 'bill',
+            key: 'bill',
+            width: 80,
+            sorter: (a, b) => a.bill - b.bill
+        },
+        {
+            title: 'Cash',
+            dataIndex: 'cash',
+            key: 'cash',
+            width: 80,
+            align: 'center',
+            sorter: (a, b) => a.cash - b.cash
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+            key: 'address',
+            width: 500,
+        },
+        {
+            title: 'Note',
+            dataIndex: 'note',
+            key: 'note',
+            width: 200,
+        },
+    ],
+    columnsDebtBill: [
+        {
+            title: 'Date',
+            dataIndex: 'date',
+            key: 'date',
+            width: 200,
+            align: 'center',
+            sorter: (a, b) => {
+                const date = [a.date.split('/'), b.date.split('/')];
+                return new Date(date[0][2], date[0][1], date[0][0]).getTime() - new Date(date[1][2], date[1][1], date[1][0]).getTime();
+            },
+            filters: getFiltersDate([2021, 2020], [12, 12]),
+            onFilter: (value, record) => record.date.includes(value)
+        },
+        {
+            title: 'Shipper',
+            dataIndex: 'shipper',
+            key: 'shipper',
+            render(shipper) {
+                return (
+                    <Typography.Text strong style={{ textTransform: "uppercase" }}>
+                        {shipper ? shipper[1] : ''}
+                    </Typography.Text>
+                )
+            }
+        },
+    ],
+    columnsDebtBillPayment: [
         {
             title: 'Date',
             dataIndex: 'date',
             key: 'date',
             width: 110,
             fixed: 'left',
-            sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-            filters: getFiltersDate([2021, 2020], [12, 10]),
-            onFilter: (value, record) => {
-                console.log(value, record.date);
-                return record.date.includes(value);
-            }
+            align: 'center',
+            sorter: (a, b) => {
+                const date = [a.date.split('/'), b.date.split('/')];
+                return new Date(date[0][2], date[0][1], date[0][0]).getTime() - new Date(date[1][2], date[1][1], date[1][0]).getTime();
+            },
+            filters: getFiltersDate([2021, 2020], [12, 12]),
+            onFilter: (value, record) => record.date.includes(value)
         },
         {
             title: 'Status',
@@ -59,11 +138,11 @@ const TableDebtBillContext = React.createContext({
             fixed: 'left',
             filters: [
                 {
-                    text: true,
+                    text: 'Đã thu',
                     value: true
                 },
                 {
-                    text: false,
+                    text: 'Chưa thu',
                     value: false
                 }
             ],
@@ -71,7 +150,7 @@ const TableDebtBillContext = React.createContext({
             render(status) {
                 return (
                     <Tag
-                        color={status ? 'green' : 'red'}>
+                        color={status ? 'blue' : 'red'}>
                         {status ? 'Đă thu' : 'Chưa thu'}
                     </Tag>
                 )
@@ -218,8 +297,8 @@ const TableDebtBillContext = React.createContext({
         {
             key: '5',
             date: '06/05/2020',
-            status: false,
-            shipper: [],
+            status: true,
+            shipper: [2, 'Nguyễn Văn Quang'],
             till: '1355',
             bill: '1300',
             cash: '21',
@@ -227,8 +306,8 @@ const TableDebtBillContext = React.createContext({
             address: 'TOA NHA SO 10 DUONG SO 4 KHU PHAN MEN QUANG TRUNG P. TAN CHANH HIEP Q12 P. TAN CHANH HIEP Q12 P. TAN CHANH HIEP Q12 P. TAN CHANH HIEP Q12'
         },
         {
-            key: '5',
-            date: '06/05/2020',
+            key: '6',
+            date: '10/08/2021',
             status: false,
             shipper: [],
             till: '1355',
@@ -238,8 +317,8 @@ const TableDebtBillContext = React.createContext({
             address: 'BVDK MY DUC PHU NHUAN 43R/2-43R/4 HO VAN HUE P9 PHU NHUAN'
         },
         {
-            key: '5',
-            date: '06/05/2020',
+            key: '7',
+            date: '18/02/2020',
             status: false,
             shipper: [],
             till: '1355',
@@ -249,10 +328,10 @@ const TableDebtBillContext = React.createContext({
             address: '97B QUANG TRUNG P8 QUAN GO VAP TRUONG MAM NON VIET MY'
         },
         {
-            key: '5',
-            date: '06/05/2020',
-            status: false,
-            shipper: [],
+            key: '8',
+            date: '06/04/2021',
+            status: true,
+            shipper: [1, 'Nguyễn Vũ Minh Thức'],
             till: '1355',
             bill: '1300',
             cash: '21',

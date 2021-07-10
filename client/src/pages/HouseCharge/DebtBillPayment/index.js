@@ -1,31 +1,11 @@
-import React, { useContext, useCallback, useState } from "react";
+import React, { useContext } from "react";
 // AntD
-import { Row, Col, Divider, Table } from "antd";
+import { Row, Col, Divider, Table, Button } from "antd";
 // Context
 import { TableDebtBillContext } from "../../../contexts";
 
-export default function DebtBill() {
+export default function DebtBillPayment() {
     const tableDebtBillContext = useContext(TableDebtBillContext);
-
-    const expandedRowRender = useCallback((record, index, indent, expanded) => {
-        if (expanded) {
-            // console.log(record);
-            const dataNew = tableDebtBillContext.dataFake.filter(x => {
-                // console.log(x.date, record.date);
-                // console.log(x.shipper[0], record.shipper[0]);
-                return x.date === record.date && x.shipper[0] === record.shipper[0];
-            });
-            console.log(dataNew);
-            return (
-                <Table
-                    columns={tableDebtBillContext.columnsDebtBillExpanable}
-                    dataSource={dataNew}
-                    size="small"
-                    bordered={true}
-                />
-            )
-        }
-    }, []);
     return (
         <>
             <Row
@@ -41,7 +21,7 @@ export default function DebtBill() {
                             <Divider
                                 className="debt-bill__total-heading-title"
                                 orientation="left">
-                                Danh sách tổng hợp các hóa đơn nợ
+                                Danh sách thu chi các hóa đơn nợ
                             </Divider>
                         </Col>
                     </Row>
@@ -50,12 +30,11 @@ export default function DebtBill() {
                         <Col span={24}>
                             <Table
                                 className="debt-bill__total-content-data"
-                                columns={tableDebtBillContext.columnsDebtBill}
-                                expandable={{ expandedRowRender }}
+                                columns={tableDebtBillContext.columnsDebtBillPayment}
                                 dataSource={tableDebtBillContext.dataFake}
                                 bordered={true}
                                 size="small"
-                                scroll={{ y: 440 }}
+                                scroll={{ x: 1200, y: 440 }}
                             />
                         </Col>
                     </Row>
