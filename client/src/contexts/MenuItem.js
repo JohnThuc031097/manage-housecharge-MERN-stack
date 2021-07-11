@@ -36,7 +36,7 @@ const MenuItemContext = React.createContext([
             {
                 subKey: getIdUnique(),
                 subIcon: UnorderedListOutlined,
-                subTitle: 'Tổng hợp HĐ của giao hàng',
+                subTitle: 'Tổng hợp hóa đơn nợ',
                 description: 'Tổng hợp tất cả các hóa đơn nợ đã thu và chưa thu tiền',
                 component: HouseChargePage.DebtBill,
             },

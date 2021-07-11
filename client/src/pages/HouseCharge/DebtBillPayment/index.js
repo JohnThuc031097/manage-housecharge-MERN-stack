@@ -21,7 +21,7 @@ export default function DebtBillPayment() {
                             <Divider
                                 className="debt-bill__total-heading-title"
                                 orientation="left">
-                                Danh sách thu chi các hóa đơn nợ
+                                Danh sách thu chi hóa đơn nợ
                             </Divider>
                         </Col>
                     </Row>
