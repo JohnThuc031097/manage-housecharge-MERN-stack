@@ -34,7 +34,7 @@ export default function DebtBill() {
                 align="top">
                 <Col
                     className="debt-bill__total"
-                    span={23}>
+                    span={24}>
                     <Row
                         className="debt-bill__total-heading">
                         <Col span={24}>
