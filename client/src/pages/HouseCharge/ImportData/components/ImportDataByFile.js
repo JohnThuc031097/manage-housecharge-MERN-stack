@@ -5,11 +5,22 @@ import { InboxOutlined } from "@ant-design/icons";
 
 export default function ImportDataByFile() {
 
+    const handleOnReadDataUpload = useCallback(
+        (file) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                console.log(e.target.result);
+            }
+            reader.readAsText(file);
+        },
+        [],
+    )
+
     const handleOnChangeUpload = useCallback(
         (info) => {
             const { status, name } = info.file;
             if (status !== 'uploading') {
-                message.loading(`${info.file}`)
+                // message.loading(`${info.file}`)
                 // console.log(info.file);
             }
             if (status === 'done') {
@@ -39,7 +50,7 @@ export default function ImportDataByFile() {
                             <Upload.Dragger
                                 name="fileDataImport"
                                 accept=".csv"
-                                action="/"
+                                beforeUpload={handleOnReadDataUpload}
                                 maxCount={1}
                                 onChange={handleOnChangeUpload}>
                                 <p className="ant-upload-drag-icon">
