@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import morgan from "morgan";
 
 import { dbConnect } from "./config/db.js";
 
@@ -11,9 +12,9 @@ if (loadDotEnv.error) {
 }
 
 console.log('[Database] => Connecting ...');
-dbConnect(process.env.HOST, process.env.DB)
+dbConnect(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_COLLECTION)
     .then(() => {
-        console.log('[Database] => Connect: OK!');
+        console.log('[Database] => Connected');
 
         return () => {
             const app = express();
@@ -24,6 +25,7 @@ dbConnect(process.env.HOST, process.env.DB)
             app.use(cors(corsOps));
             app.use(express.json());
             app.use(express.urlencoded({ extended: true }));
+            app.use(morgan('dev'));
 
             app.listen(process.env.PORT, () => {
                 console.log(`Server API start: http://${process.env.HOST}:${process.env.PORT}`);
