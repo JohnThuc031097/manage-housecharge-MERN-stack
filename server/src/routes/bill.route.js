@@ -4,8 +4,8 @@ import BillController from "../app/controllers/bill.controller.js";
 const Router = express.Router();
 
 // GET
-Router.get('/', BillController['index']);
+Router.get('/', BillController['get']);
 // POST
-Router.post('/', BillController['add']);
+Router.post('/upload', BillController['upload']);
 
 export default Router;

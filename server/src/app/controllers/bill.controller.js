@@ -3,11 +3,14 @@ import { BillModel } from "../models/bill.model.js";
 
 const BillController = {
     // [GET] /bill
-    index(req, res, next) {
+    get(req, res, next) {
         return res.json('This is a bill page!')
     },
     // [POST] /bill/
-    add(req, res, next) {
+    upload(req, res, next) {
+        const file = req.file;
+        console.log(file);
+        /*
         const data = [
             {
                 date: '06/04/2021',
@@ -82,6 +85,7 @@ const BillController = {
                 address: '183/36/32 NGUYEN VAN KHOI (CAY TRAM) F8 QGV'
             }
         ];
+        
         BillModel.insertMany(data, (err) => {
             if (err) {
                 console.log(err);
@@ -90,6 +94,7 @@ const BillController = {
                 res.json('Insert OK');
             }
         });
+        */
     }
 
 

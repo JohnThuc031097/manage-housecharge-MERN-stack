@@ -2,16 +2,22 @@ import React, { useCallback } from "react";
 // Antd
 import { Row, Col, Divider, Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+// Services
+import { HouseChargeServices } from "../../../../services";
 
 export default function ImportDataByFile() {
 
-    const handleOnReadDataUpload = useCallback(
+    const handleOnActionUpload = useCallback(
         (file) => {
+            console.log(file);
             const reader = new FileReader();
             reader.onload = (e) => {
-                console.log(e.target.result);
+                const result = e.target.result.split("\r\n");
+                console.log(result);
             }
             reader.readAsText(file);
+            // console.log(reader.result);
+            // HouseChargeServices.upload(file);
         },
         [],
     )
@@ -50,7 +56,7 @@ export default function ImportDataByFile() {
                             <Upload.Dragger
                                 name="fileDataImport"
                                 accept=".csv"
-                                beforeUpload={handleOnReadDataUpload}
+                                action={handleOnActionUpload}
                                 maxCount={1}
                                 onChange={handleOnChangeUpload}>
                                 <p className="ant-upload-drag-icon">

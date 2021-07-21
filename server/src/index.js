@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import morgan from "morgan";
 // Import App
-import { dbConnect } from "./config/db.js";
+import { dbConnect } from "./config/db.config.js";
 import Routes from "./routes/index.route.js";
 
 // Load .ENV
@@ -20,7 +20,8 @@ if (connectDB) {
     // Config App
     const app = express();
     const corsOps = {
-        origin: `http://${process.env.HOST}:${process.env.PORT}`,
+        // Accept IP Client
+        origin: `http://localhost:3000`,
     }
     app.use(cors(corsOps));
     app.use(express.json());
@@ -31,7 +32,7 @@ if (connectDB) {
     Routes(app);
 
     app.listen(process.env.PORT, () => {
-        console.log(`Server API start: http://${process.env.HOST}:${process.env.PORT}`);
+        console.log(`Server API start: http://${process.env.HOST}:${process.env.PORT}/api`);
     });
 } else {
     process.exit();
