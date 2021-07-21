@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const billSchema = new Schema({
-    date: { type: Date, default: new Date().toLocaleDateString('vi-VN') },
+    date: { type: String, },//default: new Date().toLocaleDateString('vi-VN') },
     till: { type: Number },
     bill: { type: Number },
     cash: { type: Number },
