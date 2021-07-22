@@ -12,7 +12,7 @@ export default function ImportDataByFile() {
             console.log(file);
             const reader = new FileReader();
             reader.onload = (e) => {
-                const result = e.target.result.split("\r\n");
+                const result = e.target.result.split("\n");
                 console.log(result);
             }
             reader.readAsText(file);
