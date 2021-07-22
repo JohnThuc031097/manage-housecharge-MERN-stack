@@ -1,4 +1,6 @@
 import React, { useCallback } from "react";
+// Excel
+import * as XLSX from "xlsx";
 // Antd
 import { Row, Col, Divider, Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
@@ -12,10 +14,18 @@ export default function ImportDataByFile() {
             console.log(file);
             const reader = new FileReader();
             reader.onload = (e) => {
-                const result = e.target.result.split("\n");
-                console.log(result);
+                /* Parse data */
+                const bstr = e.target.result;
+                const wb = XLSX.read(bstr, { type: 'binary' });
+                /* Get first worksheet */
+                const wsname = wb.SheetNames[0];
+                const ws = wb.Sheets[wsname];
+                /* Convert array of arrays */
+                const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+                /* Update state */
+                console.log(data);
             }
-            reader.readAsText(file);
+            reader.readAsBinaryString(file);
             // console.log(reader.result);
             // HouseChargeServices.upload(file);
         },
@@ -55,7 +65,7 @@ export default function ImportDataByFile() {
                         <Col span={24}>
                             <Upload.Dragger
                                 name="fileDataImport"
-                                accept=".csv"
+                                accept=".xlsx"
                                 action={handleOnActionUpload}
                                 maxCount={1}
                                 onChange={handleOnChangeUpload}>
