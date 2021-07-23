@@ -124,6 +124,21 @@ export default function ImportDataByInput() {
                 </Form.Item>
                 <Form.Item
                     className="input-form__item"
+                    name="inpPrice"
+                    label="Price"
+                    hasFeedback
+                    rules={[
+                        () => ({
+                            validator(_, value) {
+                                return validatorNumber('Số quầy', value, 1, 9999999999);
+                            },
+                        }),
+                    ]}
+                    required>
+                    <Input className="input-form__item-input" />
+                </Form.Item>
+                <Form.Item
+                    className="input-form__item"
                     name="inpNote"
                     label="Notes"
                     wrapperCol={{ span: 18 }}>
