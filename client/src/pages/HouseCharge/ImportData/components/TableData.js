@@ -19,11 +19,9 @@ export default function TableData() {
             Object.keys(TableCols).forEach(col => {
                 cols.push(TableCols[col]);
             });
-            setColumns(cols);
-            console.log(cols);
-            console.log(columns);
+            return setColumns(cols);
         }
-    }, [TableCols]);
+    }, []);
 
     const handleOnActionUpload = useCallback(
         (file) => {
@@ -61,10 +59,15 @@ export default function TableData() {
             </Row>
             <Row >
                 <Col span={24}>
-                    <Row className="import-data__table-data-content">
-                        <Col span={24}>
+                    <Row
+                        className="import-data__table-data-content"
+                        justify="center">
+                        <Col span={23}>
                             <Table
-                            >
+                                className="table-data-content__show"
+                                columns={columns}
+                                scroll={{ y: 400 }}
+                                bordered>
 
                             </Table>
                         </Col>

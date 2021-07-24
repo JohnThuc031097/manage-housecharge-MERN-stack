@@ -14,7 +14,7 @@
             padding: 20px 0;
         }
     }
-    .import-data__form-input {
+    .import-data__form-input-content {
         height: 70vh;
         margin: 10px 0;
     }
@@ -28,9 +28,14 @@
             color: #000;
             font-size: 18px;
             font-weight: 600;
+            padding: 20px 0;
         }
     }
     .import-data__table-data-content {
         height: 70vh;
+        margin: 10px 0;
+        .table-data-content__show {
+            height: 500px;
+        }
     }
 }

@@ -79,7 +79,7 @@ export default function FormInput() {
                 </Col>
             </Row>
             <Form
-                className="import-data__form-input-form"
+                className="import-data__form-input-content"
                 form={form}
                 size="large"
                 labelCol={{ span: 4 }}
