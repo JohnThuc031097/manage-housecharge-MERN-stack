@@ -2,7 +2,7 @@ import React from "react";
 // AntD
 import { Row, Col } from "antd";
 // Components
-import { ImportDataByFile, ImportDataByInput } from "./components";
+import { FormInput, TableData } from "./components";
 
 export default function ImportData() {
     return (
@@ -11,11 +11,11 @@ export default function ImportData() {
                 className="content__house-charge"
                 justify="space-around"
                 align="top">
-                <Col className="import-data__input" span={11}>
-                    <ImportDataByInput />
+                <Col className="import-data__form-input" span={11}>
+                    <FormInput />
                 </Col>
-                <Col className="import-data__file" span={11}>
-                    <ImportDataByFile />
+                <Col className="import-data__table-data" span={11}>
+                    <TableData />
                 </Col>
             </Row>
         </>

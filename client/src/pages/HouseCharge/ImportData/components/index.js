@@ -1,7 +1,7 @@
-import ImportDataByFile from "./ImportDataByFile";
-import ImportDataByInput from "./ImportDataByInput";
+import FormInput from "./FormInput";
+import TableData from "./TableData";
 
 export {
-    ImportDataByFile,
-    ImportDataByInput,
+    FormInput,
+    TableData,
 }

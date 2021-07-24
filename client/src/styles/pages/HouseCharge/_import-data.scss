@@ -1,10 +1,10 @@
-.import-data__file,
-.import-data__input {
+.import-data__form-input,
+.import-data__table-data {
     @include bg-primary;
 }
 
-.import-data__input {
-    .import-data__input-heading {
+.import-data__form-input {
+    .import-data__form-input-heading {
         margin: 0 20px;
 
         .input-heading__title {
@@ -14,14 +14,14 @@
             padding: 20px 0;
         }
     }
-    .import-data__input-form {
-        height: 430px;
+    .import-data__form-input {
+        height: 70vh;
         margin: 10px 0;
     }
 }
 
-.import-data__file {
-    .import-data__file-heading {
+.import-data__table-data {
+    .import-data__table-data-heading {
         margin: 0 20px;
 
         .file-heading__title {
@@ -30,8 +30,7 @@
             font-weight: 600;
         }
     }
-    .import-data__file-upload {
-        background-color: $color-btn-primary;
-        height: 450px;
+    .import-data__table-data-content {
+        height: 70vh;
     }
 }

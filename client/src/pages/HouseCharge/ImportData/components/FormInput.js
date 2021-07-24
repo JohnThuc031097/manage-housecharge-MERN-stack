@@ -2,10 +2,17 @@ import React, { useCallback, useState } from "react";
 // AntD
 import { Divider, Row, Col, Form, Input, Button, DatePicker } from "antd";
 
-export default function ImportDataByInput() {
+export default function FormInput() {
     const [form] = Form.useForm();
 
-    const handleOnClickSave = useCallback(
+    const handleOnClickImportFile = useCallback(
+        () => {
+
+        },
+        [],
+    )
+
+    const handleOnClickAdd = useCallback(
         () => {
             form.validateFields()
                 .then(values => {
@@ -62,17 +69,17 @@ export default function ImportDataByInput() {
 
     return (
         <>
-            <Row className="import-data__input-heading">
+            <Row className="import-data__form-input-heading">
                 <Col span={24}>
                     <Divider orientation="left" plain>
                         <span className="input-heading__title">
-                            Nhập dữ liệu thủ công
+                            Nhập dữ liệu
                         </span>
                     </Divider>
                 </Col>
             </Row>
             <Form
-                className="import-data__input-form"
+                className="import-data__form-input-form"
                 form={form}
                 size="large"
                 labelCol={{ span: 4 }}
@@ -130,7 +137,7 @@ export default function ImportDataByInput() {
                     rules={[
                         () => ({
                             validator(_, value) {
-                                return validatorNumber('Số quầy', value, 1, 9999999999);
+                                return validatorNumber('Số tiền', value, 1, 9999999999);
                             },
                         }),
                     ]}
@@ -140,22 +147,42 @@ export default function ImportDataByInput() {
                 <Form.Item
                     className="input-form__item"
                     name="inpNote"
+                    label="Address"
+                    wrapperCol={{ span: 18 }}
+                    hasFeedback
+                    rules={[
+                        () => ({
+                            validator(_, value) {
+                                return validatorRequired('Địa chỉ', value);
+                            },
+                        }),
+                    ]}
+                    required>
+                    <Input.TextArea
+                        className="input-form__item-input"
+                        rows={4}
+                        placeholder="Nhập địa chỉ thanh toán"
+                    />
+                </Form.Item>
+                <Form.Item
+                    className="input-form__item"
+                    name="inpNote"
                     label="Notes"
                     wrapperCol={{ span: 18 }}>
                     <Input.TextArea
                         className="input-form__item-input"
-                        rows={5}
-                        placeholder="Nhập ghi chú (Địa chỉ, Số điện thoại, ...)"
+                        rows={2}
+                        placeholder="Nhập thêm ghi chú (Nếu cần)"
                     />
                 </Form.Item>
                 <Form.Item
                     className="input-form__item"
                     hasFeedback
-                    wrapperCol={{ span: 10, offset: 12 }}>
+                    wrapperCol={{ span: 24 }}>
                     <Row
-                        justify="space-between"
+                        justify="end"
                         align="middle">
-                        <Col span={10}>
+                        <Col span={5}>
                             <Button
                                 className="input-form__item-btn w-full"
                                 htmlType="reset"
@@ -164,16 +191,27 @@ export default function ImportDataByInput() {
                                 Refresh
                             </Button>
                         </Col>
-                        <Col span={10}>
+                        <Col span={5} offset={2}>
                             <Button
                                 className="input-form__item-btn w-full"
                                 htmlType="submit"
                                 type="primary"
                                 size="large"
-                                onClick={handleOnClickSave}>
-                                Save
+                                onClick={handleOnClickImportFile}>
+                                Import File
                             </Button>
                         </Col>
+                        <Col span={5} offset={1}>
+                            <Button
+                                className="input-form__item-btn w-full"
+                                htmlType="submit"
+                                type="primary"
+                                size="large"
+                                onClick={handleOnClickAdd}>
+                                Add
+                            </Button>
+                        </Col>
+                        <Col span={2}></Col>
                     </Row>
                 </Form.Item>
             </Form>
