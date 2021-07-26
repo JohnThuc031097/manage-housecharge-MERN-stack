@@ -4,6 +4,7 @@
 }
 
 .import-data__form-input {
+    height: auto;
     .import-data__form-input-heading {
         margin: 0 20px;
 
@@ -15,7 +16,6 @@
         }
     }
     .import-data__form-input-content {
-        height: 70vh;
         margin: 10px 0;
     }
 }
@@ -32,10 +32,8 @@
         }
     }
     .import-data__table-data-content {
-        height: 70vh;
         margin: 10px 0;
         .table-data-content__show {
-            height: 500px;
         }
     }
 }

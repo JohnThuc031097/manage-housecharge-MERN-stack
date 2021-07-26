@@ -1,6 +1,4 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-// Excel
-import * as XLSX from "xlsx";
 // Antd
 import { Row, Col, Divider, Table } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
@@ -10,41 +8,19 @@ import { HouseChargeServices } from "../../../../services";
 import { TableContext } from "../../../../contexts";
 
 export default function TableData() {
-    const { TableCols } = useContext(TableContext)
+    const tableHeader = useContext(TableContext.TableHeader)
     const [columns, setColumns] = useState([]);
 
     useEffect(() => {
-        if (TableCols) {
+        if (tableHeader.Columns) {
             const cols = [];
-            Object.keys(TableCols).forEach(col => {
-                cols.push(TableCols[col]);
+            Object.keys(tableHeader.Columns).forEach(col => {
+                if (col === 'shipper' || col === 'action' || col === 'status') return;
+                cols.push(tableHeader.Columns[col]);
             });
             return setColumns(cols);
         }
     }, []);
-
-    const handleOnActionUpload = useCallback(
-        (file) => {
-            console.log(file);
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                /* Parse data */
-                const bstr = e.target.result;
-                const wb = XLSX.read(bstr, { type: 'binary' });
-                /* Get first worksheet */
-                const wsname = wb.SheetNames[0];
-                const ws = wb.Sheets[wsname];
-                /* Convert array of arrays */
-                const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-                /* Update state */
-                console.log(data);
-            }
-            reader.readAsBinaryString(file);
-            // console.log(reader.result);
-            // HouseChargeServices.upload(file);
-        },
-        [],
-    )
 
     return (
         <>
@@ -66,10 +42,9 @@ export default function TableData() {
                             <Table
                                 className="table-data-content__show"
                                 columns={columns}
-                                scroll={{ y: 400 }}
-                                bordered>
-
-                            </Table>
+                                scroll={{ y: '50vh' }}
+                                size="small"
+                                bordered />
                         </Col>
                     </Row>
                 </Col>

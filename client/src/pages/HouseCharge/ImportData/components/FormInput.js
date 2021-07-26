@@ -1,13 +1,31 @@
 import React, { useCallback, useState } from "react";
 // AntD
-import { Divider, Row, Col, Form, Input, Button, DatePicker } from "antd";
+import { Divider, Row, Col, Form, Input, Button, DatePicker, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+// Excel
+import * as XLSX from "xlsx";
 
 export default function FormInput() {
     const [form] = Form.useForm();
 
-    const handleOnClickImportFile = useCallback(
-        () => {
-
+    const handleOnActionImportFile = useCallback(
+        (file) => {
+            console.log(file);
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                /* Parse data */
+                const bstr = e.target.result;
+                const wb = XLSX.read(bstr, { type: 'binary' });
+                /* Get first worksheet */
+                const wsname = wb.SheetNames[0];
+                const ws = wb.Sheets[wsname];
+                /* Convert array of arrays */
+                const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+                /* Update state */
+                console.log(data);
+            }
+            reader.readAsBinaryString(file);
+            return false;
         },
         [],
     )
@@ -191,15 +209,14 @@ export default function FormInput() {
                                 Refresh
                             </Button>
                         </Col>
-                        <Col span={5} offset={2}>
-                            <Button
-                                className="input-form__item-btn w-full"
-                                htmlType="submit"
-                                type="primary"
-                                size="large"
-                                onClick={handleOnClickImportFile}>
-                                Import File
-                            </Button>
+                        <Col span={5} offset={1}>
+                            <Upload
+                                accept=".xlsx"
+                                maxCount={1}
+                                showUploadList={false}
+                                beforeUpload={handleOnActionImportFile}>
+                                <Button icon={<UploadOutlined />}>Select File</Button>
+                            </Upload>
                         </Col>
                         <Col span={5} offset={1}>
                             <Button
