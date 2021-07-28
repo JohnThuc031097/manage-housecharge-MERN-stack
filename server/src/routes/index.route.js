@@ -1,7 +1,7 @@
 import BillRoute from "./bill.route.js";
 
 const Routes = (app) => {
-    app.use('/housecharge', BillRoute);
+    app.use('/api/housecharge', BillRoute);
 }
 
 export default Routes;

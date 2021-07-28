@@ -6,6 +6,11 @@ const BillController = {
     get(req, res, next) {
         return res.json('This is a bill page!')
     },
+    add(req, res, next) {
+        const values = req.body;
+        console.log(values);
+        return res.status(200).send(`Bill ${values.bill} đã được thêm vào dữ liệu server`);
+    },
     // [POST] /bill/
     upload(req, res, next) {
         const file = req.file;

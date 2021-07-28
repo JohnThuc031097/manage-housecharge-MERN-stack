@@ -11,11 +11,8 @@ export default function ImportData() {
                 className="content__house-charge"
                 justify="space-around"
                 align="top">
-                <Col className="import-data__form-input" span={11}>
+                <Col className="import-data__form-input" span={24}>
                     <FormInput />
-                </Col>
-                <Col className="import-data__table-data" span={11}>
-                    <TableData />
                 </Col>
             </Row>
         </>

@@ -14,9 +14,9 @@ export default function TableData() {
     useEffect(() => {
         if (tableHeader.Columns) {
             const cols = [];
-            Object.keys(tableHeader.Columns).forEach(col => {
-                if (col === 'shipper' || col === 'action' || col === 'status') return;
-                cols.push(tableHeader.Columns[col]);
+            Object.keys(tableHeader.Columns).forEach(keyCol => {
+                if (keyCol === 'shipper' || keyCol === 'action' || keyCol === 'status') return;
+                cols.push(tableHeader.Columns[keyCol]);
             });
             return setColumns(cols);
         }

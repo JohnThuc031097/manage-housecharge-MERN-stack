@@ -4,7 +4,6 @@
 }
 
 .import-data__form-input {
-    height: auto;
     .import-data__form-input-heading {
         margin: 0 20px;
 
@@ -17,23 +16,5 @@
     }
     .import-data__form-input-content {
         margin: 10px 0;
-    }
-}
-
-.import-data__table-data {
-    .import-data__table-data-heading {
-        margin: 0 20px;
-
-        .file-heading__title {
-            color: #000;
-            font-size: 18px;
-            font-weight: 600;
-            padding: 20px 0;
-        }
-    }
-    .import-data__table-data-content {
-        margin: 10px 0;
-        .table-data-content__show {
-        }
     }
 }
