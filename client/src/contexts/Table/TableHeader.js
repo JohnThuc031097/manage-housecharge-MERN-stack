@@ -53,21 +53,6 @@ const Columns = {
             )
         }
     },
-    currency: {
-        title: 'Currency (VNĐ)',
-        dataIndex: 'currency',
-        key: 'currency',
-        width: 150,
-        align: 'right',
-        sorter: (a, b) => a.currency - b.currency,
-        render(currency, record) {
-            return (
-                <Typography.Text code strong style={{ color: record.status ? 'blue' : 'red', fontSize: '18px' }}>
-                    {currency}
-                </Typography.Text>
-            )
-        }
-    },
     till: {
         title: 'Till',
         dataIndex: 'till',
@@ -89,6 +74,21 @@ const Columns = {
         width: 80,
         align: 'center',
         sorter: (a, b) => a.cash - b.cash,
+    },
+    price: {
+        title: 'Price (VNĐ)',
+        dataIndex: 'price',
+        key: 'price',
+        width: 150,
+        align: 'right',
+        sorter: (a, b) => a.currency - b.currency,
+        render(currency, record) {
+            return (
+                <Typography.Text code strong style={{ color: record.status ? 'blue' : 'red', fontSize: '18px' }}>
+                    {currency}
+                </Typography.Text>
+            )
+        }
     },
     address: {
         title: 'Address',

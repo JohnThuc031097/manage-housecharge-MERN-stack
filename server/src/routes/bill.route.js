@@ -8,6 +8,6 @@ Router.get('/', BillController['get']);
 // POST
 Router.post('/add', BillController['add']);
 // POST
-Router.post('/upload', BillController['upload']);
+Router.post('/upload-file', BillController['uploadFile']);
 
 export default Router;

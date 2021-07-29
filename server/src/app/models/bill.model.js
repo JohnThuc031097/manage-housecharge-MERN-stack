@@ -3,15 +3,16 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const billSchema = new Schema({
-    date: { type: String, },//default: new Date().toLocaleDateString('vi-VN') },
+    key: { type: String },
+    date: { type: String, },
+    status: { type: Boolean, default: false },
+    shipper: { type: Schema.Types.ObjectId, ref: 'shipper', default: null },
     till: { type: Number },
     bill: { type: Number },
     cash: { type: Number },
     price: { type: Number },
     address: { type: String },
     note: { type: String },
-    status: { type: Boolean },
-    shipper: { type: Schema.Types.ObjectId, ref: 'shipper' }
 }, { timestamps: true });
 
 const BillModel = mongoose.model('bill', billSchema);
