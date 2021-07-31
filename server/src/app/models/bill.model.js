@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const billSchema = new Schema({
     key: { type: String },
-    date: { type: String, },
+    date: { type: Number, },
     status: { type: Boolean, default: false },
     shipper: { type: Schema.Types.ObjectId, ref: 'shipper', default: null },
     till: { type: Number },

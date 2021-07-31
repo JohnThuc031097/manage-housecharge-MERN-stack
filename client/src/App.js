@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 // AntD
-import { Layout } from "antd";
+import { Layout, Spin } from "antd";
 // Providers
-import { MenuItemProvider, TableDebtBillProvider } from "./providers";
+import { MenuItemProvider, TableDebtBillProvider, LoadingProvider } from "./providers";
 // Components
 import { Wapper, Sider } from "./components";
-
+// Hooks
+import { useLoading } from "./hooks";
 function App() {
+    const [loading, setLoading] = useLoading();
     return (
-        <Layout className="App">
-            <MenuItemProvider>
-                <Sider />
-                <TableDebtBillProvider>
-                    <Wapper />
-                </TableDebtBillProvider>
-            </MenuItemProvider>
-        </Layout>
+        <LoadingProvider>
+            <Spin
+                tip="Hệ thống đang xử lý dữ liệu. Vui lòng đợi trong giây lát ..."
+                size="large"
+                spinning={loading}>
+                <Layout className="App">
+                    <MenuItemProvider>
+                        <Sider />
+                        <TableDebtBillProvider>
+                            <Wapper />
+                        </TableDebtBillProvider>
+                    </MenuItemProvider>
+                </Layout>
+            </Spin >
+        </LoadingProvider >
     );
 }
 

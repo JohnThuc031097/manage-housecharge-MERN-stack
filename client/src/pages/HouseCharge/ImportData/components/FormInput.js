@@ -14,12 +14,15 @@ import * as XLSX from "xlsx";
 import { TableContext } from "../../../../contexts";
 // Services
 import { HouseChargeServices } from "../../../../services";
+// Hooks
+import { useLoading } from "../../../../hooks";
 
 export default function FormInput() {
     const [form] = Form.useForm();
+
+    const [loading, setLoading] = useLoading();
     const [loadingAdd, setLoadingAdd] = useState(false);
     const [loadingUpload, setLoadingUpload] = useState(false);
-    const [percentUploadCurr, setPercentUploadCurr] = useState(0);
 
     const tableHeader = useContext(TableContext.TableHeader);
     const [keyCols] = useState(_ => {
@@ -50,31 +53,37 @@ export default function FormInput() {
                 const wsname = wb.SheetNames[0];
                 const ws = wb.Sheets[wsname];
                 /* Convert array of arrays */
-                let data = XLSX.utils.sheet_to_json(ws, { header: 1, blankrows: false });
+                let data = XLSX.utils.sheet_to_json(ws, { header: 1 });
                 /* Update state */
-                // console.log(data);
 
-                setPercentUploadCurr(0);
-                setLoadingUpload(true);
+                // setLoadingUpload(true);
+                setLoading(true);
 
                 // Add Key into Array Result
-                const limitUpload = 10;
-                let countUploaded = 0;
+                const limitUpload = 100;
 
                 const dataSplitLimit = () => {
                     return data.slice(0).reduce((arrNew, vCurr, index) => {
                         if (index < limitUpload && vCurr) {
                             let vNew = vCurr.reduce((objNewChild, vCurrChild, indexChild) => {
                                 const key = keyCols[indexChild];
-                                objNewChild[`${key}`] = vCurrChild;
+                                let value = vCurrChild.toString().trim();
+                                if (key === 'date' ||
+                                    key === 'till' ||
+                                    key === 'bill' ||
+                                    key === 'cash' ||
+                                    key === 'price') {
+                                    value = Number(value);
+                                }
+                                objNewChild[`${key}`] = value;
                                 return objNewChild;
                             }, {});
                             vNew = {
                                 ...vNew,
                                 // Formula Time Excel: (serial - 25569) * 86400;
-                                key: `${(vNew.date - 25569) * 86400}-${vNew.bill}-${vNew.till}-${vNew.cash}`,
+                                key: `${(vNew.date - 25569) * 86400}-${vNew.till}-${vNew.bill}-${vNew.cash}`,
                             }
-                            data.splice(1, 1);
+                            data.splice(0, 1);
                             return [...arrNew, vNew];
                         }
                         return arrNew;
@@ -85,32 +94,48 @@ export default function FormInput() {
                     let dataToBeProcessed = dataSplitLimit();
                     try {
                         const result = await HouseChargeServices.uploadFile(dataToBeProcessed);
-                        countUploaded += result.data.count;
-                        console.log('Uploaded:', countUploaded);
-                        const percentUpload = Math.round(100 / data.length) * limitUpload;
-                        setPercentUploadCurr(percentUploadCurr + percentUpload);
-                        if (data.length < limitUpload) {
-                            dataToBeProcessed = dataSplitLimit();
-                            const result = await HouseChargeServices.uploadFile(dataToBeProcessed);
-                            countUploaded += result.data.count;
-                            console.log('Uploaded:', countUploaded);
-                            setPercentUploadCurr(percentUploadCurr + percentUpload);
-                            if (countUploaded === 0) {
-                                setMessage(notification.error({
-                                    message: 'Thêm dữ liệu',
-                                    description: `Upload thất bại`,
-                                    duration: 2,
-                                }));
-                            } else {
+                        if (result.data.isSuccess) {
+                            // countUploaded += result.data.count;
+                            // console.log('Uploaded:', countUploaded);
+                            if (data.length === 0) {
+                                // Success
                                 setMessage(notification.success({
                                     message: 'Thêm dữ liệu',
-                                    description: `Upload thành công ${countUploaded} Bill`,
-                                    duration: 2,
+                                    description: result.data.message,
+                                    duration: 1.5,
                                 }));
                             }
-                            setLoadingUpload(false);
+                            if (data.length < limitUpload) {
+                                dataToBeProcessed = dataSplitLimit();
+                                const resultEnd = await HouseChargeServices.uploadFile(dataToBeProcessed);
+                                if (resultEnd.data.isSuccess) {
+                                    // countUploaded += result.data.count;
+                                    // console.log('Uploaded:', countUploaded);
+                                    // Success
+                                    setMessage(notification.success({
+                                        message: 'Thêm dữ liệu',
+                                        description: result.data.message,
+                                        duration: 1.5,
+                                    }));
+                                } else {
+                                    // Error
+                                    setMessage(notification.error({
+                                        message: 'Thêm dữ liệu',
+                                        description: result.data.error,
+                                        duration: 2,
+                                    }));
+                                }
+                            }
+                        } else {
+                            // Error
+                            setMessage(notification.error({
+                                message: 'Thêm dữ liệu',
+                                description: result.data.error,
+                                duration: 2,
+                            }));
                         }
                     } catch (error) {
+                        // Error
                         setMessage(notification.error({
                             message: 'Thêm dữ liệu',
                             description: error,
@@ -118,6 +143,10 @@ export default function FormInput() {
                         }));
                     }
                 }
+
+                // setLoadingUpload(false);
+                setLoading(false);
+
             }
             reader.readAsBinaryString(file);
             return false;
@@ -133,7 +162,7 @@ export default function FormInput() {
                     const result = {
                         ...values,
                         date: values.date.unix(),
-                        key: `${values.date}-${values.bill}-${values.till}-${values.cash}`,
+                        key: `${values.date.unix()}-${values.bill}-${values.till}-${values.cash}`,
                     }
                     HouseChargeServices.add(result)
                         .then(res => {
@@ -142,14 +171,8 @@ export default function FormInput() {
                                 // Error
                                 setMessage(notification.error({
                                     message: 'Thêm dữ liệu',
-                                    description: result.message,
+                                    description: result.error,
                                 }));
-                                if (result.logError) {
-                                    setMessage(notification.error({
-                                        message: 'Thêm dữ liệu',
-                                        description: result.logError,
-                                    }));
-                                }
                             } else {
                                 if (result.isExist) {
                                     // Exist
@@ -176,19 +199,18 @@ export default function FormInput() {
                                 description: err,
                                 duration: 2,
                             }));
-                            if (result.logError) {
-                                setMessage(notification.error({
-                                    message: 'Thêm dữ liệu',
-                                    description: result.logError,
-                                }));
-                            }
                         })
                         .finally(setLoadingAdd(false));
                 })
                 .catch(errorInfo => {
                     // Missing Info Field
-                    // console.log(errorInfo);
-                });
+                    setMessage(notification.warn({
+                        message: 'Thêm dữ liệu',
+                        description: 'Vui lòng điền đầy đủ thông tin',
+                        duration: 1.5,
+                    }));
+                })
+                .finally(setLoadingAdd(false));
         },
         [],
     )
@@ -196,7 +218,6 @@ export default function FormInput() {
     const handleOnClickRefesh = useCallback(
         () => {
             form.resetFields();
-            setPercentUploadCurr(0);
         },
         [],
     )
@@ -252,6 +273,7 @@ export default function FormInput() {
                 form={form}
                 size="large">
                 <Spin
+                    tip="Hệ thống đang xử lý dữ liệu. Vui lòng đợi trong giây lát ..."
                     size="large"
                     spinning={loadingUpload}>
                     <Row
@@ -445,11 +467,6 @@ export default function FormInput() {
                     </Row>
                 </Spin>
             </Form>
-            <Row justify="center">
-                <Col span={23}>
-                    <Progress strokeLinecap="square" percent={percentUploadCurr} />
-                </Col>
-            </Row>
         </>
     );
 }
