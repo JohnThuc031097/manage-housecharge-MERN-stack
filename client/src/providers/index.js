@@ -1,9 +1,9 @@
 import MenuItemProvider from "./MenuItem";
 import TableDebtBillProvider from "./TableDebtBill";
-import LoadingProvider from "./Loading";
+import StatusLoadingProvider from "./StatusLoading";
 
 export {
     MenuItemProvider,
     TableDebtBillProvider,
-    LoadingProvider
+    StatusLoadingProvider
 }

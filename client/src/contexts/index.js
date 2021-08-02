@@ -1,11 +1,11 @@
 import MenuItemContext from "./MenuItem";
 import TableDebtBillContext from "./TableDebtBill";
 import * as TableContext from "./Table";
-import LoadingContext from "./Loading";
+import * as StatusContext from "./Status";
 
 export {
     MenuItemContext,
     TableDebtBillContext,
     TableContext,
-    LoadingContext
+    StatusContext
 }

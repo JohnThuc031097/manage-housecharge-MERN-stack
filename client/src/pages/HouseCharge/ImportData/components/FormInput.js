@@ -15,12 +15,13 @@ import { TableContext } from "../../../../contexts";
 // Services
 import { HouseChargeServices } from "../../../../services";
 // Hooks
-import { LoadingContext } from "../../../../contexts";
+import { StatusContext } from "../../../../contexts";
 
 export default function FormInput() {
     const [form] = Form.useForm();
 
-    const [loading, setLoading] = useContext(LoadingContext);
+    const { statusLoading, setStatusLoading } = useContext(StatusContext.Loading);
+
     const [loadingAdd, setLoadingAdd] = useState(false);
     const [loadingUpload, setLoadingUpload] = useState(false);
 
@@ -57,7 +58,7 @@ export default function FormInput() {
                 /* Update state */
 
                 // setLoadingUpload(true);
-                setLoading(true);
+                setStatusLoading(true);
 
                 // Add Key into Array Result
                 const limitUpload = 100;
@@ -145,7 +146,7 @@ export default function FormInput() {
                 }
 
                 // setLoadingUpload(false);
-                setLoading(false);
+                setStatusLoading(false);
 
             }
             reader.readAsBinaryString(file);
