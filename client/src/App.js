@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 // AntD
 import { Layout, Spin } from "antd";
 // Providers
@@ -6,9 +6,9 @@ import { MenuItemProvider, TableDebtBillProvider, LoadingProvider } from "./prov
 // Components
 import { Wapper, Sider } from "./components";
 // Hooks
-import { useLoading } from "./hooks";
+import { LoadingContext } from "./contexts";
 function App() {
-    const [loading, setLoading] = useLoading();
+    const [loading, setLoading] = useContext(LoadingContext);
     return (
         <LoadingProvider>
             <Spin

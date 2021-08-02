@@ -15,12 +15,12 @@ import { TableContext } from "../../../../contexts";
 // Services
 import { HouseChargeServices } from "../../../../services";
 // Hooks
-import { useLoading } from "../../../../hooks";
+import { LoadingContext } from "../../../../contexts";
 
 export default function FormInput() {
     const [form] = Form.useForm();
 
-    const [loading, setLoading] = useLoading();
+    const [loading, setLoading] = useContext(LoadingContext);
     const [loadingAdd, setLoadingAdd] = useState(false);
     const [loadingUpload, setLoadingUpload] = useState(false);
 
