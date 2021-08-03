@@ -114,24 +114,14 @@ const Columns = {
                 <Row
                     justify="space-around"
                     align="middle">
-                    <Col span={10}>
-                        {/* <Button type="primary" style={{ width: '100%', borderRadius: '5px', backgroundColor: record.status ? 'red' : 'green' }}>{record.status ? 'Unconfirm' : 'Confirm'}</Button> */}
-                        {/* <Button style={{ width: '100%', borderRadius: '5px', fontWeight: '600', color: record.status ? 'blue' : 'red' }}>{record.status ? 'Unconfirm' : 'Confirm'}</Button> */}
+                    <Col span={8}>
                         {record.status ? <StopTwoTone /> : <DownCircleTwoTone />}
                     </Col>
-                    <Col span={10}>
-                        <Row style={{ flexDirection: "column" }} >
-                            {/* <Col span={24} style={{ marginBottom: '10px' }}> */}
-                            <Col span={24}>
-                                {/* <Button style={{ width: '100%', borderRadius: '5px' }}>Edit</Button> */}
-                                <EditTwoTone />
-                            </Col>
-                            <Col span={24}>
-                                {/* <Button style={{ width: '100%', borderRadius: '5px', backgroundColor: 'rgb(241, 150, 45)', color: 'white' }}>Remove</Button> */}
-                                {/* <Button style={{ width: '100%', borderRadius: '5px' }}>Remove</Button> */}
-                                <DeleteTwoTone />
-                            </Col>
-                        </Row>
+                    <Col span={8}>
+                        <EditTwoTone />
+                    </Col>
+                    <Col span={8}>
+                        <DeleteTwoTone />
                     </Col>
                 </Row>
             );

@@ -1,13 +1,9 @@
-.debt-bill__total {
+.debt-bill-payment {
     @include bg-primary;
     padding: 0 20px;
-}
-
-.debt-bill__total {
-    .debt-bill__total-heading {
-        .debt-bill__total-heading-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
+    .debt-bill-payment__heading {
+        margin-top: 15px;
+    }
+    .debt-bill-payment__table {
     }
 }

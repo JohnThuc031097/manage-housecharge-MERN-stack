@@ -1,3 +1,4 @@
+import * as Validator from "./Validator";
 
 const getIdUnique = () => {
     return (Date.now() + Math.random()).toString();
@@ -5,4 +6,5 @@ const getIdUnique = () => {
 
 export {
     getIdUnique,
+    Validator
 }
