@@ -1,4 +1,4 @@
-import { BillModel } from "../models/bill.model.js";
+import { BillModel } from "../../models/bill.model.js";
 
 const filterExist = async (req, res, next) => {
     const data = req?.body;
@@ -10,7 +10,7 @@ const filterExist = async (req, res, next) => {
                 req.data = data;
             next();
         } catch (err) {
-            console.log('[Error] => [Midleware] => filterExist');
+            console.log('[Error] => [Midleware] => [bill] => filterExist');
             res.json({
                 isError: true,
                 error: 'Lỗi hệ thống'
@@ -35,7 +35,7 @@ const filterExists = async (req, res, next) => {
             }
             next();
         } catch (err) {
-            console.log('[Error] => [Midleware] => filterExists');
+            console.log('[Error] => [Midleware] => [bill] => filterExists');
             res.json({
                 isError: true,
                 error: 'Lỗi hệ thống'

@@ -7,16 +7,28 @@ const HttpHouseCharge = axios.create({
     }
 });
 
-const HouseChargeServices = {
+const Bill = {
     get() {
-        return HttpHouseCharge.get('/');
+        return HttpHouseCharge.get('/bill');
     },
     add(data) {
-        return HttpHouseCharge.post('/add', data);
+        return HttpHouseCharge.post('/bill/add', data);
     },
     uploadFile(data) {
-        return HttpHouseCharge.post('/upload-file', data);
+        return HttpHouseCharge.post('/bill/upload-file', data);
     }
 }
 
-export default HouseChargeServices;
+const Year = {
+    get() {
+        return HttpHouseCharge.get('/year');
+    },
+    add(data) {
+        return HttpHouseCharge.post('/year/add', data);
+    }
+}
+
+export {
+    Bill,
+    Year,
+}

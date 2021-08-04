@@ -36,7 +36,7 @@ const BillController = {
         const data = req.data;
         if (data.length > 0) {
             try {
-                await BillModel.insertMany(data);
+                // await BillModel.insertMany(data);
             } catch (error) {
                 console.log('[Error] => [Controller] => [bill] => [uploadFile]:', error);
                 res.json({

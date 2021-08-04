@@ -3,7 +3,8 @@ import React, { useContext, useState, useEffect } from "react";
 import {
     Row, Col, Table,
     Button,
-    Form, Select, Input
+    Form, Select, Input,
+    Statistic,
 } from "antd";
 // Context
 import { TableDebtBillContext, TableContext } from "../../../contexts";
@@ -75,45 +76,27 @@ export default function DebtBillPayment() {
                                         </Form.Item>
                                     </Col>
                                     <Col
-                                        span={4}
-                                        offset={2}>
+                                        span={2}
+                                        offset={3}>
                                         <Form.Item
-                                            label="Tổng bill:"
                                             wrapperCol={{ span: 24 }}>
-                                            <Input
-                                                type="text"
-                                                bordered={false}
-                                                align="center"
-                                                value="">
-                                            </Input>
+                                            <Statistic title="Tổng bill" value="12555" />
                                         </Form.Item>
                                     </Col>
                                     <Col
-                                        span={4}
+                                        span={2}
                                         offset={1}>
                                         <Form.Item
-                                            label="Đã thu:"
                                             wrapperCol={{ span: 24 }}>
-                                            <Input
-                                                type="text"
-                                                bordered={false}
-                                                align="center"
-                                                value="12315132">
-                                            </Input>
+                                            <Statistic title="Đã thu" value="1000" />
                                         </Form.Item>
                                     </Col>
                                     <Col
-                                        span={4}
+                                        span={2}
                                         offset={1}>
                                         <Form.Item
-                                            label="Chưa thu:"
                                             wrapperCol={{ span: 24 }}>
-                                            <Input
-                                                type="text"
-                                                bordered={false}
-                                                align="center"
-                                                value="">
-                                            </Input>
+                                            <Statistic title="Chưa thu" value="1000" />
                                         </Form.Item>
                                     </Col>
                                 </Row>
