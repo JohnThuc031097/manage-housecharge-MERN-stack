@@ -9,19 +9,18 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 // Excel
 import * as XLSX from "xlsx";
-// Contexts
-import { TableContext } from "../../../contexts";
 // Services
 import { HouseChargeServices } from "../../../services";
 // Hooks
 import { StatusContext } from "../../../contexts";
 // Utils
 import { Validator } from "../../../utils";
+// TabBill
+import TabBill from "./TabBill";
 
 export default function ImportData() {
     // Contexts
     const { setStatusLoading } = useContext(StatusContext.Loading);
-
     // Hooks
     const [formTabBill] = Form.useForm();
     const [formTabYear] = Form.useForm();
@@ -39,7 +38,6 @@ export default function ImportData() {
     useEffect(() => {
         return message && message();
     }, [message])
-
     // Handle
     // === Tab Bill ===
     const handleTableBillOnActionUploadFile = (file) => {
@@ -147,65 +145,65 @@ export default function ImportData() {
         reader.readAsBinaryString(file);
         return false;
     }
-    const handleTabBillOnClickBtnAdd = () => {
-        setStatusLoading(true);
+    // const handleTabBillOnClickBtnAdd = () => {
+    //     setStatusLoading(true);
 
-        formTabBill.validateFields()
-            .then(values => {
-                const result = {
-                    ...values,
-                    date: values.date.unix(),
-                    key: `${values.date.unix()}-${values.bill}-${values.till}-${values.cash}`,
-                }
-                HouseChargeServices.Bill.add(result)
-                    .then(res => {
-                        const result = res.data;
-                        if (result.isError) {
-                            // Error
-                            setMessage(notification.error({
-                                message: 'Thêm dữ liệu',
-                                description: result.error,
-                            }));
-                        } else {
-                            if (result.isExist) {
-                                // Exist
-                                setMessage(notification.warn({
-                                    message: 'Thêm dữ liệu',
-                                    description: result.message,
-                                    duration: 1.5,
-                                }));
-                            } else {
-                                // Success
-                                setMessage(notification.success({
-                                    message: 'Thêm dữ liệu',
-                                    description: result.message,
-                                    duration: 1.5,
-                                }));
-                                formTabBill.resetFields();
-                            }
-                        }
-                    })
-                    .catch(err => {
-                        // Error
-                        setMessage(notification.error({
-                            message: 'Thêm dữ liệu',
-                            description: err,
-                            duration: 2,
-                        }));
-                    })
-                    .finally(setStatusLoading(false));
-            })
-            .catch(errorInfo => {
-                // Missing Info Field
-                // console.log(errorInfo);
-                setMessage(notification.warn({
-                    message: 'Thêm dữ liệu',
-                    description: 'Vui lòng điền đầy đủ thông tin',
-                    duration: 1.5,
-                }));
-                setStatusLoading(false);
-            })
-    }
+    //     formTabBill.validateFields()
+    //         .then(values => {
+    //             const result = {
+    //                 ...values,
+    //                 date: values.date.unix(),
+    //                 key: `${values.date.unix()}-${values.bill}-${values.till}-${values.cash}`,
+    //             }
+    //             HouseChargeServices.Bill.add(result)
+    //                 .then(res => {
+    //                     const result = res.data;
+    //                     if (result.isError) {
+    //                         // Error
+    //                         setMessage(notification.error({
+    //                             message: 'Thêm dữ liệu',
+    //                             description: result.error,
+    //                         }));
+    //                     } else {
+    //                         if (result.isExist) {
+    //                             // Exist
+    //                             setMessage(notification.warn({
+    //                                 message: 'Thêm dữ liệu',
+    //                                 description: result.message,
+    //                                 duration: 1.5,
+    //                             }));
+    //                         } else {
+    //                             // Success
+    //                             setMessage(notification.success({
+    //                                 message: 'Thêm dữ liệu',
+    //                                 description: result.message,
+    //                                 duration: 1.5,
+    //                             }));
+    //                             formTabBill.resetFields();
+    //                         }
+    //                     }
+    //                 })
+    //                 .catch(err => {
+    //                     // Error
+    //                     setMessage(notification.error({
+    //                         message: 'Thêm dữ liệu',
+    //                         description: err,
+    //                         duration: 2,
+    //                     }));
+    //                 })
+    //                 .finally(setStatusLoading(false));
+    //         })
+    //         .catch(errorInfo => {
+    //             // Missing Info Field
+    //             // console.log(errorInfo);
+    //             setMessage(notification.warn({
+    //                 message: 'Thêm dữ liệu',
+    //                 description: 'Vui lòng điền đầy đủ thông tin',
+    //                 duration: 1.5,
+    //             }));
+    //             setStatusLoading(false);
+    //         })
+    // }
     const handleTableBillOnClickBtnRefesh = () => {
         formTabBill.resetFields();
     }
@@ -246,199 +244,10 @@ export default function ImportData() {
                 align="top">
                 <Col span={24}>
                     <Tabs
-                        className="import-data__tab-bill"
+                        className="import-data__tabs"
                         type="line">
                         <Tabs.TabPane tab="BILL" key="bill">
-                            <Form
-                                className="tab-bill__form-input"
-                                form={formTabBill}
-                                size="large">
-                                <Row
-                                    className="mr-top-30"
-                                    align="top">
-                                    <Col
-                                        span={4}
-                                        offset={1}>
-                                        <Form.Item
-                                            className="form-input__item"
-                                            name="dateTabBill"
-                                            label="Date"
-                                            labelAlign={{ span: 2 }}
-                                            rules={[
-                                                () => ({
-                                                    validator(_, value) {
-                                                        return Validator.validatorRequired('Ngày', value);
-                                                    },
-                                                }),
-                                            ]}
-                                            required>
-                                            <DatePicker className="mr-left-20" />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col
-                                        span={3}
-                                        offset={1}>
-                                        <Form.Item
-                                            className="form-input__item"
-                                            name="tillTabBill"
-                                            label="Till"
-                                            hasFeedback
-                                            rules={[
-                                                () => ({
-                                                    validator(_, value) {
-                                                        return Validator.validatorNumber('Mã thu ngân', value, 1, 99999);
-                                                    },
-                                                }),
-                                            ]}
-                                            required>
-                                            <Input />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col
-                                        span={3}
-                                        offset={1}>
-                                        <Form.Item
-                                            className="form-input__item"
-                                            name="billTabBill"
-                                            label="Bill"
-                                            hasFeedback
-                                            rules={[
-                                                () => ({
-                                                    validator(_, value) {
-                                                        return Validator.validatorNumber('Số hóa đơn', value, 1, 99999);
-                                                    },
-                                                }),
-                                            ]}
-                                            required>
-                                            <Input />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col
-                                        span={3}
-                                        offset={1}>
-                                        <Form.Item
-                                            className="form-input__item"
-                                            name="cashTabBill"
-                                            label="Cash"
-                                            hasFeedback
-                                            rules={[
-                                                () => ({
-                                                    validator(_, value) {
-                                                        return Validator.validatorNumber('Số quầy', value, 1, 99);
-                                                    },
-                                                }),
-                                            ]}
-                                            required>
-                                            <Input />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col
-                                        span={5}
-                                        offset={1}>
-                                        <Form.Item
-                                            className="form-input__item"
-                                            name="priceTabBill"
-                                            label="Price"
-                                            hasFeedback
-                                            rules={[
-                                                () => ({
-                                                    validator(_, value) {
-                                                        return Validator.validatorNumber('Số tiền', value, 1, 9999999999);
-                                                    },
-                                                }),
-                                            ]}
-                                            required>
-                                            <Input />
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                                <Row
-                                    className="mr-top-20"
-                                    align="top">
-                                    <Col
-                                        span={13}
-                                        offset={1}>
-                                        <Form.Item
-                                            className="form-input__item"
-                                            name="address"
-                                            label="Address"
-                                            wrapperCol={{ span: 20 }}
-                                            rules={[
-                                                () => ({
-                                                    validator(_, value) {
-                                                        return Validator.validatorRequired('Địa chỉ', value);
-                                                    },
-                                                }),
-                                            ]}
-                                            required>
-                                            <Input.TextArea
-                                                rows={4}
-                                                placeholder="Nhập địa chỉ thanh toán"
-                                            />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col
-                                        span={9}>
-                                        <Form.Item
-                                            className="form-input__item"
-                                            name="note"
-                                            label="Notes"
-                                            wrapperCol={{ span: 26 }}>
-                                            <Input.TextArea
-                                                rows={4}
-                                                placeholder="Nhập thêm ghi chú (Nếu cần)"
-                                            />
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                                <Row
-                                    className="mr-top-20"
-                                    justify="end"
-                                    align="top">
-                                    <Col
-                                        span={2}>
-                                        <Form.Item
-                                            className="form-input__item">
-                                            <Button
-                                                className="w-full"
-                                                htmlType="reset"
-                                                size="large"
-                                                onClick={handleTableBillOnClickBtnRefesh}>
-                                                Refresh
-                                            </Button>
-                                        </Form.Item>
-                                    </Col>
-                                    <Col
-                                        span={2}
-                                        offset={1}>
-                                        <Form.Item
-                                            className="form-input__item">
-                                            <Upload
-                                                accept=".xlsx"
-                                                maxCount={1}
-                                                showUploadList={false}
-                                                beforeUpload={handleTableBillOnActionUploadFile}>
-                                                <Button icon={<UploadOutlined />}>Upload File</Button>
-                                            </Upload>
-                                        </Form.Item>
-                                    </Col>
-                                    <Col
-                                        span={2}
-                                        offset={1}>
-                                        <Form.Item className="form-input__item">
-                                            <Button
-                                                className="w-full"
-                                                htmlType="submit"
-                                                type="primary"
-                                                size="large"
-                                                onClick={handleTabBillOnClickBtnAdd}>
-                                                Add
-                                            </Button>
-                                        </Form.Item>
-                                    </Col>
-                                    <Col offset={1}></Col>
-                                </Row>
-                            </Form>
+                            <TabBill />
                         </Tabs.TabPane>
                         <Tabs.TabPane tab="YEAR" key="year">
                             <Form
@@ -479,7 +288,6 @@ export default function ImportData() {
                             </Form>
                         </Tabs.TabPane>
                         <Tabs.TabPane tab="SHIPPER" key="shipper">
-
                         </Tabs.TabPane>
                     </Tabs>
                 </Col>

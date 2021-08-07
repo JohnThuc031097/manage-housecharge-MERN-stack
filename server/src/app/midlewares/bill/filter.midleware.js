@@ -12,14 +12,14 @@ const filterExist = async (req, res, next) => {
         } catch (err) {
             console.log('[Error] => [Midleware] => [bill] => filterExist');
             res.json({
-                isError: true,
-                error: 'Lỗi hệ thống'
+                type: 'error',
+                description: 'Lỗi hệ thống'
             })
         }
     } else {
         res.json({
-            isError: true,
-            error: 'Dữ liệu sai định dạng'
+            type: 'error',
+            description: 'Dữ liệu sai định dạng'
         })
     }
 }
@@ -37,14 +37,14 @@ const filterExists = async (req, res, next) => {
         } catch (err) {
             console.log('[Error] => [Midleware] => [bill] => filterExists');
             res.json({
-                isError: true,
-                error: 'Lỗi hệ thống'
+                type: 'error',
+                description: 'Lỗi hệ thống'
             })
         }
     } else {
         res.json({
-            isError: true,
-            error: 'Dữ liệu sai định dạng'
+            type: 'error',
+            description: 'Dữ liệu sai định dạng'
         })
     }
 }
