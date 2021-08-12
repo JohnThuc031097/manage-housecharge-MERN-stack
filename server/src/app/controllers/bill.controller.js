@@ -36,7 +36,8 @@ const BillController = {
         const data = req.data;
         if (data.length > 0) {
             try {
-                // await BillModel.insertMany(data);
+                await BillModel.insertMany(data);
+                console.log(`[Controller] => [uploadFile] => [bill] => ${data.length} Success`);
             } catch (error) {
                 console.log('[Error] => [Controller] => [bill] => [uploadFile]:', error);
                 res.json({
@@ -44,7 +45,6 @@ const BillController = {
                     description: 'Upload dữ liệu thất bại'
                 });
             }
-            console.log(`[Controller] => [uploadFile] => [bill] => ${data.length} Success`);
         } else {
             console.log('[Controller] => [uploadFile] => [bill] => Duplicate');
         }

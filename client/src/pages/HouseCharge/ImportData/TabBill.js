@@ -12,8 +12,6 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 // Context
 import { StatusContext } from "../../../contexts";
-// Services
-import { HouseChargeServices } from "../../../services";
 // Reducer
 import { TabBillReducer } from "../../../reducers/HouseCharge/ImportData";
 // Utils
@@ -26,25 +24,29 @@ export default function TabBill() {
     // Hooks
     const [form] = Form.useForm();
     // Reducers
-    const [state, dispatch] = useReducer(TabBillReducer, {
-        message: {
-            title: 'Thêm dữ liệu',
-            description: '',
-            duration: 1.5
-        }
-    });
+    const [state, dispatch] = useReducer(TabBillReducer, {});
     // Effects
     useEffect(() => {
-        console.log(state);
         if (state instanceof Promise) {
-            state.then(_state => {
-                console.log('useEffect', _state);
-                setStatusLoading(_state.statusLoading);
-                notification[_state.message.type]({
-                    message: _state.message.title,
-                    description: _state.message.description,
-                    duration: _state.message.duration
-                });
+            state.then(valueState => {
+                if (Object.keys(valueState).length > 0) {
+                    if (valueState['add']?.message?.type) {
+                        notification[valueState['add']?.message?.type]({
+                            message: valueState['add'].message.title,
+                            description: valueState['add'].message.description,
+                            duration: valueState['add'].message.duration,
+                        });
+                        setStatusLoading(false);
+                    }
+                    if (valueState['upload']?.message?.type) {
+                        notification[valueState['upload']?.message?.type]({
+                            message: valueState['upload'].message.title,
+                            description: valueState['upload'].message.description,
+                            duration: valueState['upload'].message.duration,
+                        });
+                        setStatusLoading(false);
+                    }
+                }
             })
         }
     }, [state]);
@@ -204,7 +206,14 @@ export default function TabBill() {
                             className="w-full"
                             htmlType="reset"
                             size="large"
-                            onClick={() => dispatch({ type: 'refresh' })}>
+                            onClick={() => {
+                                return dispatch({
+                                    type: 'refresh',
+                                    payload: {
+                                        refreshForm: () => form.resetFields()
+                                    }
+                                })
+                            }}>
                             Refresh
                         </Button>
                     </Form.Item>
@@ -218,7 +227,26 @@ export default function TabBill() {
                             accept=".xlsx"
                             maxCount={1}
                             showUploadList={false}
-                            beforeUpload={() => dispatch({ type: 'upload' })}>
+                            beforeUpload={(file) => {
+                                setStatusLoading(true);
+                                dispatch({
+                                    type: 'upload',
+                                    payload: {
+                                        file,
+                                        keyCols: [
+                                            'date',
+                                            'till',
+                                            'bill',
+                                            'cash',
+                                            'price',
+                                            'address',
+                                            'note'
+                                        ],
+                                        limitOneUpload: 100
+                                    }
+                                })
+                                return false;
+                            }}>
                             <Button icon={<UploadOutlined />}>Upload File</Button>
                         </Upload>
                     </Form.Item>
@@ -232,7 +260,15 @@ export default function TabBill() {
                             htmlType="submit"
                             type="primary"
                             size="large"
-                            onClick={() => dispatch({ type: 'add', validateFields: () => form.validateFields() })}>
+                            onClick={() => {
+                                setStatusLoading(true);
+                                return dispatch({
+                                    type: 'add',
+                                    payload: {
+                                        validateFields: () => form.validateFields()
+                                    }
+                                })
+                            }}>
                             Add
                         </Button>
                     </Form.Item>
